@@ -13,6 +13,7 @@ We're creating a visualization dashboard for Olist, the largest department store
 
 **Data Source:**
 https://www.kaggle.com/olistbr/brazilian-ecommerce?select=olist_order_reviews_dataset.csv
+
 The dataset was provided by Olist, and it has information of 100k orders from 2016 to 2018 made at multiple marketplaces in Brazil. Its features allows viewing an order from multiple dimensions: from order status, price, payment and freight performance to customer location, product attributes and finally reviews written by customers.
 
 **Inspiration**
