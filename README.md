@@ -27,7 +27,9 @@ Some inspiration for data analysis was included in the dataset source:
 - Product Quality: Enjoy yourself discovering the products categories that are more prone to customer insatisfaction.
 - Feature Engineering: Create features from this rich dataset or attach some external public information to it.
 
-However, with all of the data available to us, we're looking to create an interactive dashboard using Plotly and D3, where sales performance can be seen throughout the years included in the dataset, as well as the reviews and locations from customers. 
+However, with all of the data available to us, we're looking to create an interactive dashboard using Plotly and D3, where sales performance can be seen throughout the years included in the dataset, as well as the reviews and locations (using GeoMapping) from customers. 
+
+Additional JS library: http://kenwheeler.github.io/slick/
 
 **Dashboard Sketch**
 ![startersketch](https://user-images.githubusercontent.com/77795761/125874486-6576c5f1-6fe1-4c2c-b682-3a3916de65c6.jpg)
