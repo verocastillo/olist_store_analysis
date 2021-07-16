@@ -30,6 +30,7 @@ Some inspiration for data analysis was included in the dataset source:
 However, with all of the data available to us, we're looking to create an interactive dashboard using Plotly and D3, where sales performance can be seen throughout the years included in the dataset, as well as the reviews and locations from customers. 
 
 **Dashboard Sketch**
+![startersketch](https://user-images.githubusercontent.com/77795761/125874486-6576c5f1-6fe1-4c2c-b682-3a3916de65c6.jpg)
 
 ## Repository Navigation
 
