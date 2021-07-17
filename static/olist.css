@@ -1,0 +1,23 @@
+.title{
+    background-color: dodgerblue;
+    font-size: large;
+    color: floralwhite;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.subtitle{
+    background-color: lightgray;
+    padding-top: 10px;
+    padding-bottom: 7px;
+    font-size:medium;
+    color:black;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.border{
+    border-right: 3px solid black;
+    border-left: 3px solid black;
+}
+.border2{
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+    border-left: 3px solid black;
+}
