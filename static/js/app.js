@@ -1,4 +1,49 @@
+//
+// Project 2: JavaScript App
+//
 
+// Initial text in subtitle
+document.getElementById("subtitle").textContent="Performance Analysis: 2016";
+
+// Event handlers
+d3.select("#select_year").on("change",runEnter);
+
+// Initial function
+function runInit() {
+    // Prevent reloading
+    d3.event.preventDefault();
+
+    // Change value according to element
+    document.getElementById("subtitle").textContent="Performance Analysis: 2016"
+}
+
+// Complete the event handler for button
+function runEnter() {
+
+  // Prevent reloading
+  d3.event.preventDefault();
+
+  // Check value on button
+  var inputYear = d3.select("#select_year").property("value");
+  console.log(inputYear);
+
+  // Change value according to element
+  if (inputYear === "2016"){
+    document.getElementById("subtitle").textContent="Performance Analysis: 2016"
+  }
+  else if (inputYear === "2017"){
+    document.getElementById("subtitle").textContent="Performance Analysis: 2017"
+  }
+  else if (inputYear === "2018"){
+    document.getElementById("subtitle").textContent="Performance Analysis: 2018"
+  }
+  else {
+    document.getElementById("subtitle").textContent="Performance Analysis: All Years"
+  }
+}
+
+
+// Old code
 d3.json('data/samples.json').then((data) => {
     var select = d3.select('#selDataset');
     console.log(data);
@@ -120,4 +165,3 @@ function optionChanged(value){
     });
     
 }
-
