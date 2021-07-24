@@ -4,18 +4,12 @@
 
 // Initial text in subtitle
 document.getElementById("subtitle").textContent="Performance Analysis: 2016";
+// Initial charts
+linechart(2016);
+gaugechart(2016);
 
 // Event handlers
 d3.select("#select_year").on("change",runEnter);
-
-// Initial function
-function runInit() {
-    // Prevent reloading
-    d3.event.preventDefault();
-
-    // Change value according to element
-    document.getElementById("subtitle").textContent="Performance Analysis: 2016"
-}
 
 // Complete the event handler for button
 function runEnter() {
@@ -25,143 +19,562 @@ function runEnter() {
 
   // Check value on button
   var inputYear = d3.select("#select_year").property("value");
-  console.log(inputYear);
-
+  //console.log(inputYear);
+  
   // Change value according to element
   if (inputYear === "2016"){
-    document.getElementById("subtitle").textContent="Performance Analysis: 2016"
+    document.getElementById("subtitle").textContent="Performance Analysis: 2016";
+    linechart(inputYear);
+    gaugechart(inputYear);
+    barchart(inputYear);
   }
   else if (inputYear === "2017"){
-    document.getElementById("subtitle").textContent="Performance Analysis: 2017"
+    document.getElementById("subtitle").textContent="Performance Analysis: 2017";
+    linechart(inputYear);
+    gaugechart(inputYear);
+    barchart(inputYear);
   }
   else if (inputYear === "2018"){
-    document.getElementById("subtitle").textContent="Performance Analysis: 2018"
+    document.getElementById("subtitle").textContent="Performance Analysis: 2018";
+    linechart(inputYear);
+    gaugechart(inputYear);
+    barchart(inputYear);
   }
   else {
-    document.getElementById("subtitle").textContent="Performance Analysis: All Years"
+    document.getElementById("subtitle").textContent="Performance Analysis: All Years";
+    linechart(inputYear);
+    gaugechart(inputYear);
+    barchart(inputYear);
   }
 }
 
-
-// Old code
-d3.json('data/samples.json').then((data) => {
-    var select = d3.select('#selDataset');
-    console.log(data);
-    select.selectAll("option")
-        .data(data.names)
-        .enter()
-            .append("option")
-            .attr("value", function (d){return d})
-            .text(function(d){return d})
-});
-
-function optionChanged(value){
-    console.log(value);
-    var sample = '';
-    
-    d3.json('data/samples.json').then((data) => {
-        data.samples.forEach(element => {            
-            if(element.id == value){
-               sample = element;                
-            }
-        });
-        var otus_ids = sample.otu_ids;
-        var sliced_ids = otus_ids.slice(0, 10);
-        var otus_labels = sample.otu_labels;
-        var sliced_labels = otus_labels.slice(0,10);
-        var sample_values = sample.sample_values;
-        var sv_sliced = sample_values.slice(0,10);
-        // Trace1 for the Greek Data
-        var trace1 = {
-            x: sv_sliced.map(object => object),
-            y: sliced_ids.map(object => 'OTN '+object),
-            text: sliced_labels.map(object => object),
-            name: "OTU",
-            type: "bar",
-            orientation: "h"
-        };
-        
-        // data
-        var data2 = [trace1];
-        
-        // Apply the group bar mode to the layout
-        var layout = {
-            title: "Top 10 operational taxonomic units (OTUs)",
-            margin: {
-            l: 100,
-            r: 100,
-            t: 100,
-            b: 100
-            }
-        };
-        
-        // Render the plot to the div tag with id "plot"
-        Plotly.newPlot("bar", data2, layout);
-
-        var trace1 = {
-            x: sample.otu_ids.map(object => object),
-            y: sample.sample_values.map(object => object),
-            mode: 'markers',
-            marker:{ 
-                size: sample.sample_values,
-                color: sample.otu_ids
-            }
-          };
-          
-          data2 = [trace1];
-          
-          layout = {
-            title: 'Bacteria Cultures Per Sample',
-            showlegend: false,
-            height: 600,
-            width: 1200
-          };
-          
-          Plotly.newPlot('bubble', data2, layout);
-    });
-
-    d3.json('data/samples.json').then((data) => {
-        data.metadata.forEach(element => {            
-            if(element.id == value){
-               sample = element;                
-            }
-        });
-        var div = d3.select("#sample-metadata");
-        div.html("");
-        for (const [key, value] of Object.entries(sample)) {
-            div.append('p').text(key+': ' +value+'\n');
+// Create line charts
+function linechart(inputYear) {
+  // Change value according to element
+  if (inputYear === "2016"){
+    d3.json("flask-database/json-data/maindata2016.json").then((data)=> {
+      var linedata = data;
+      var allmonths = []
+      for (var i = 0; i < linedata.length; ++i) {
+        allmonths.push(linedata[i].month)
+      }
+      //console.log(allmonths)
+      var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
+      //console.log(months)
+      var count = {};
+      allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
         }
-        var data = [
-            {
-              domain: { x: [0, 1], y: [0, 1] },
-              value: sample.wfreq,
-              title: { text: "Belly Button Washing Frecuency" },
-              type: "indicator",
-              mode: "gauge+number",
-              gauge: {
-                axis: { range: [null, 9] },
-                steps: [
-                  { range: [0, 1], color: "#e5ffff" },
-                  { range: [1, 2], color: "#c0ecf6" },
-                  { range: [2, 3], color: "#94d8ec" },
-                  { range: [3, 4], color: "#60c5e3" },
-                  { range: [4, 5], color: "#35b1d3" },
-                  { range: [5, 6], color: "#279dbe" },
-                  { range: [6, 7], color: "#1789a9" },
-                  { range: [7, 8], color: "#007594" },
-                  { range: [8, 9], color: "#00769b" },
-                ],
-                threshold: {
-                  line: { color: "#2112ad", width: 4 },
-                  thickness: 0.75,
-                  value: sample.wfreq
-                }
-              }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
+    })
+  }
+  else if (inputYear === "2017"){
+    d3.json("flask-database/json-data/maindata2017.json").then((data)=> {
+      var linedata = data;
+      var allmonths = []
+      for (var i = 0; i < linedata.length; ++i) {
+        allmonths.push(linedata[i].month)
+      }
+      //console.log(allmonths)
+      var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
+      //console.log(months)
+      var count = {};
+      allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
+        }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
+    })
+  }
+  else if (inputYear === "2018"){
+    d3.json("flask-database/json-data/maindata2018.json").then((data)=> {
+      var linedata = data;
+      var allmonths = []
+      for (var i = 0; i < linedata.length; ++i) {
+        allmonths.push(linedata[i].month)
+      }
+      //console.log(allmonths)
+      var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
+      //console.log(months)
+      var count = {};
+      allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
+        }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
+    })
+  }
+  else {
+    d3.json("flask-database/json-data/maindata.json").then((data)=> {
+      var linedata = data;
+      var allmonths = []
+      for (var i = 0; i < linedata.length; ++i) {
+        allmonths.push(linedata[i].month)
+      }
+      //console.log(allmonths)
+      var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
+      //console.log(months)
+      var count = {};
+      allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
+        }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
+    })
+  }
+}
+
+// Create gauge charts
+function gaugechart(inputYear) {
+  // Change value according to element
+  if (inputYear === "2016"){
+    d3.json("flask-database/json-data/maindata2016.json").then((data)=> {
+      var gaugedata = data;
+      var reviews = []
+      for (var i = 0; i < gaugedata.length; ++i) {
+        reviews.push(gaugedata[i].review_score)
+      }
+      //console.log(reviews)
+      reviewsum = reviews.reduce((a, b) => a + b, 0)
+      reviewnum = reviews.length
+      avgreview = reviewsum/reviewnum
+      var gaugedata = [{
+        domain: { x: [0, 1], y: [0, 1] },
+        value: avgreview,
+        title: { text: "<b>Average Order Review Score</b><br> 2016" },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        gauge: {
+          axis: { range: [null, 5] },
+          bar: { color: "royalblue" },
+          steps: [
+            { range: [null, 1], color: "lightsteelblue" },
+            { range: [1, 2], color: "powderblue" },
+            { range: [2, 3], color: "lightblue" },
+            { range: [3, 4], color: "skyblue" },
+            { range: [4, 5], color: "lightskyblue" }
+          ],
+          threshold: {
+            line: { color: "blue", width: 4 },
+            thickness: 0.75,
+            value: 490
             }
-          ];
-          
-          var layout = { width: 600, height: 450, margin: { t: 0, b: 0 } };
-          Plotly.newPlot('gauge', data, layout);
-    });
-    
+        }
+      }
+      ];
+      var gaugelayout = { width: 600, height: 450, margin: { t: 0, b: 0 } };
+    Plotly.newPlot('gauge', gaugedata, gaugelayout);
+    })
+  }
+  else if (inputYear === "2017"){
+    d3.json("flask-database/json-data/maindata2017.json").then((data)=> {
+      var gaugedata = data;
+      var reviews = []
+      for (var i = 0; i < gaugedata.length; ++i) {
+        reviews.push(gaugedata[i].review_score)
+      }
+      //console.log(reviews)
+      reviewsum = reviews.reduce((a, b) => a + b, 0)
+      reviewnum = reviews.length
+      avgreview = reviewsum/reviewnum
+      var gaugedata = [{
+        domain: { x: [0, 1], y: [0, 1] },
+        value: avgreview,
+        title: { text: "<b>Average Order Review Score</b><br> 2017" },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        gauge: {
+          axis: { range: [null, 5] },
+          bar: { color: "royalblue" },
+          steps: [
+            { range: [null, 1], color: "lightsteelblue" },
+            { range: [1, 2], color: "powderblue" },
+            { range: [2, 3], color: "lightblue" },
+            { range: [3, 4], color: "skyblue" },
+            { range: [4, 5], color: "lightskyblue" }
+          ],
+          threshold: {
+            line: { color: "blue", width: 4 },
+            thickness: 0.75,
+            value: 490
+            }
+        }
+      }
+      ];
+      var gaugelayout = { width: 600, height: 450, margin: { t: 0, b: 0 } };
+    Plotly.newPlot('gauge', gaugedata, gaugelayout);
+    })
+  }
+  else if (inputYear === "2018"){
+    d3.json("flask-database/json-data/maindata2018.json").then((data)=> {
+      var gaugedata = data;
+      var reviews = []
+      for (var i = 0; i < gaugedata.length; ++i) {
+        reviews.push(gaugedata[i].review_score)
+      }
+      //console.log(reviews)
+      reviewsum = reviews.reduce((a, b) => a + b, 0)
+      reviewnum = reviews.length
+      avgreview = reviewsum/reviewnum
+      var gaugedata = [{
+        domain: { x: [0, 1], y: [0, 1] },
+        value: avgreview,
+        title: { text: "<b>Average Order Review Score</b><br> 2018" },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        gauge: {
+          axis: { range: [null, 5] },
+          bar: { color: "royalblue" },
+          steps: [
+            { range: [null, 1], color: "lightsteelblue" },
+            { range: [1, 2], color: "powderblue" },
+            { range: [2, 3], color: "lightblue" },
+            { range: [3, 4], color: "skyblue" },
+            { range: [4, 5], color: "lightskyblue" }
+          ],
+          threshold: {
+            line: { color: "blue", width: 4 },
+            thickness: 0.75,
+            value: 490
+            }
+        }
+      }
+      ];
+      var gaugelayout = { width: 600, height: 450, margin: { t: 0, b: 0 } };
+    Plotly.newPlot('gauge', gaugedata, gaugelayout);
+    })
+  }
+  else {
+    d3.json("flask-database/json-data/maindata.json").then((data)=> {
+      var gaugedata = data;
+      var reviews = []
+      for (var i = 0; i < gaugedata.length; ++i) {
+        reviews.push(gaugedata[i].review_score)
+      }
+      //console.log(reviews)
+      reviewsum = reviews.reduce((a, b) => a + b, 0)
+      reviewnum = reviews.length
+      avgreview = reviewsum/reviewnum
+      var gaugedata = [{
+        domain: { x: [0, 1], y: [0, 1] },
+        value: avgreview,
+        title: { text: "<b>Average Order Review Score</b><br> All Years" },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        gauge: {
+          axis: { range: [null, 5] },
+          bar: { color: "royalblue" },
+          steps: [
+            { range: [null, 1], color: "lightsteelblue" },
+            { range: [1, 2], color: "powderblue" },
+            { range: [2, 3], color: "lightblue" },
+            { range: [3, 4], color: "skyblue" },
+            { range: [4, 5], color: "lightskyblue" }
+          ],
+          threshold: {
+            line: { color: "blue", width: 4 },
+            thickness: 0.75,
+            value: 490
+            }
+        }
+      }
+      ];
+      var gaugelayout = { width: 600, height: 450, margin: { t: 0, b: 0 } };
+    Plotly.newPlot('gauge', gaugedata, gaugelayout);
+    })
+  }
+}
+
+// Create bar charts
+function barchart(inputYear) {
+  // Change value according to element
+  if (inputYear === "2016"){
+    d3.json("flask-database/json-data/top5data2016.json").then((data)=> {
+      bardata = data
+      productcats = []
+      for (var i = 0; i < bardata.length; ++i) {
+        productcats.push(bardata[i].product_category_name)
+      }
+      var count = {};
+      productcats.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count)
+      var items = Object.keys(count).map(function(key) {
+      return [key, count[key]];
+      });
+      items.sort(function(first, second) {
+      return second[1] - first[1];
+      });
+      var top5categs = items.slice(0, 5);
+      //console.log(top5categs.length)
+      categnames = []
+      categfreq = []
+      for (var i = 0; i < top5categs.length; ++i) {
+        categnames.push(top5categs[i][0])
+        categfreq.push(top5categs[i][1])
+      }
+      //console.log(categnames)
+      //console.log(categfreq)
+      var tracebar = {
+        x: categnames,
+        y: categfreq,
+        type:"bar",
+        orientation: "v",
+      };
+      var bardata = [tracebar];
+      var layoutbar = {
+        title: {text: "<b>Top 5 Product<br>Categories 2016</b>",
+        y : .80
+          },
+        xaxis: { title: "Category Name", 
+            automargin: true, },
+        yaxis: { title: "Order Frequency"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('bar', bardata, layoutbar);
+    })
+  }
+  else if (inputYear === "2017"){
+    d3.json("flask-database/json-data/top5data2017.json").then((data)=> {
+      bardata = data
+      productcats = []
+      for (var i = 0; i < bardata.length; ++i) {
+        productcats.push(bardata[i].product_category_name)
+      }
+      var count = {};
+      productcats.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count)
+      var items = Object.keys(count).map(function(key) {
+      return [key, count[key]];
+      });
+      items.sort(function(first, second) {
+      return second[1] - first[1];
+      });
+      var top5categs = items.slice(0, 5);
+      //console.log(top5categs.length)
+      categnames = []
+      categfreq = []
+      for (var i = 0; i < top5categs.length; ++i) {
+        categnames.push(top5categs[i][0])
+        categfreq.push(top5categs[i][1])
+      }
+      //console.log(categnames)
+      //console.log(categfreq)
+      var tracebar = {
+        x: categnames,
+        y: categfreq,
+        type:"bar",
+        orientation: "v",
+      };
+      var bardata = [tracebar];
+      var layoutbar = {
+        title: {text: "<b>Top 5 Product<br>Categories 2017</b>"
+          },
+        xaxis: { title: "Category Name", 
+            automargin: true, },
+        yaxis: { title: "Order Frequency"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('bar', bardata, layoutbar);
+      })
+  }
+  else if (inputYear === "2018"){
+    d3.json("flask-database/json-data/top5data2018.json").then((data)=> {
+      bardata = data
+      productcats = []
+      for (var i = 0; i < bardata.length; ++i) {
+        productcats.push(bardata[i].product_category_name)
+      }
+      var count = {};
+      productcats.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count)
+      var items = Object.keys(count).map(function(key) {
+      return [key, count[key]];
+      });
+      items.sort(function(first, second) {
+      return second[1] - first[1];
+      });
+      var top5categs = items.slice(0, 5);
+      //console.log(top5categs.length)
+      categnames = []
+      categfreq = []
+      for (var i = 0; i < top5categs.length; ++i) {
+        categnames.push(top5categs[i][0])
+        categfreq.push(top5categs[i][1])
+      }
+      //console.log(categnames)
+      //console.log(categfreq)
+      var tracebar = {
+        x: categnames,
+        y: categfreq,
+        type:"bar",
+        orientation: "v",
+      };
+      var bardata = [tracebar];
+      var layoutbar = {
+        title: {text: "<b>Top 5 Product<br>Categories 2018</b>",
+        y : .80
+          },
+        xaxis: { title: "Category Name", 
+            automargin: true, },
+        yaxis: { title: "Order Frequency"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('bar', bardata, layoutbar);
+      })
+  }
+  else {
+    d3.json("flask-database/json-data/top5data.json").then((data)=> {
+      bardata = data
+      productcats = []
+      for (var i = 0; i < bardata.length; ++i) {
+        productcats.push(bardata[i].product_category_name)
+      }
+      var count = {};
+      productcats.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
+      //console.log(count)
+      var items = Object.keys(count).map(function(key) {
+      return [key, count[key]];
+      });
+      items.sort(function(first, second) {
+      return second[1] - first[1];
+      });
+      var top5categs = items.slice(0, 5);
+      //console.log(top5categs.length)
+      categnames = []
+      categfreq = []
+      for (var i = 0; i < top5categs.length; ++i) {
+        categnames.push(top5categs[i][0])
+        categfreq.push(top5categs[i][1])
+      }
+      //console.log(categnames)
+      //console.log(categfreq)
+      var tracebar = {
+        x: categnames,
+        y: categfreq,
+        type:"bar",
+        orientation: "v",
+      };
+      var bardata = [tracebar];
+      var layoutbar = {
+        title: {text: "<b>Top 5 Product<br>Categories All Years</b>",
+        y : .80
+          },
+        xaxis: { title: "Category Name", 
+            automargin: true, },
+        yaxis: { title: "Order Frequency"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('bar', bardata, layoutbar);
+    })
+  }
+}
+
+// Unique values function
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
 }
