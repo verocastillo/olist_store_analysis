@@ -36,4 +36,24 @@ Additional JS library: http://kenwheeler.github.io/slick/
 
 ## Repository Navigation
 
+The structure for the repository is very simple:
+- *flask-database* contains the documents and scripts for the Flask API.
+- *images* contains the inspiration images and some screenshots of the functioning webpage.
+- *sql* contains the initial data, the sql scripts and final datasets.
+- *static* contains the scripts for the map and the plots.
+- In the main repo page, you can find the HTML dashboard.
+
 ## Webpage Contents
+<img width="731" alt="Screen Shot 2021-07-24 at 9 58 02 AM" src="https://user-images.githubusercontent.com/77795761/126872430-0d168566-e2ff-4b02-9bce-e8a3301acfa5.png">
+
+The webpage contains:
+- Line chart depicting the monthly sales.
+- Gauge chart depicting the average review.
+- Bar chart depicting the top 5 products.
+- Map depicting the sales performance per region.
+
+
+### See it live:
+https://verocastillo.github.io/olist_store_analysis/dashboard.html
+
+You can visit our presentation at: https://docs.google.com/presentation/d/1sKqeBne6-x7NlzQisDLxqEea4AxlYpeJjE7emN2LQiA/edit#slide=id.ge624394ec7_3_19
