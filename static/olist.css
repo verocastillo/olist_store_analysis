@@ -1,8 +1,8 @@
 .title{
-    background-color: dodgerblue;
+    color: white;
     font-size: large;
-    color: floralwhite;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: dodgerblue;
 }
 .subtitle{
     background-color: lightgray;
@@ -36,4 +36,13 @@
 .subtitle{
     padding: 2px;
     font-weight: bold;
+}
+
+.supertitle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: 130px;
+    background-image: url("../img/logo-mask.png");
+    text-indent: -9999px;
 }

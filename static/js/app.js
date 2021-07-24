@@ -4,9 +4,11 @@
 
 // Initial text in subtitle
 document.getElementById("subtitle").textContent="Performance Analysis: 2016";
+
 // Initial charts
 linechart(2016);
 gaugechart(2016);
+barchart(2016);
 
 // Event handlers
 d3.select("#select_year").on("change",runEnter);
