@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Necessary scripts -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Olist Store Performance: Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./static/olist.css">
+  <link rel="stylesheet" href="./static/css/style.css">
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-md-12 title text-center">
+      <h1><b>Olist</b>Store Analysis</h1>
+    </div>
+  </div>
+  <div class="row subtitle">
+    <div class="col-md-4 col-sm-4 text-center">
+    </div>
+    <div class="col-md-4 col-sm-4 text-center" id="subtitle">
+      <!-- Subtitle changed with JavaScript-->
+    </div>
+    <div class="col-md-4 col-sm-4 text-center">
+      <select id="select_year" style="float: right;">
+        <option id= "2016" value="2016">2016</option>
+        <option id= "2017" value="2017">2017</option>
+        <option id= "2018" value="2018">2018</option>
+        <option id= "0000" value="Global">Global</option>
+      </select>
+    </div>
+  </div>
+  <div class="row border" style="padding-top: 20px;">
+    <div class="col-md-6">
+      <div id="scatter">
+        <!-- line chart here-->
+      </div>        
+    </div>
+    <div class="col-md-6">
+      <div id="gauge">
+        <!-- gauge chart here-->
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="row border2" style="padding-top: 20px;">
+    <div class="col-md-3">
+      <div id="bar"></div>
+      <img src="./Images2/bar.JPG" alt="sale/category" width="250" height="300">
+    </div>
+
+    <div class="col-md-3">
+      <div id="top5"></div>
+      <img src="./Images2/top5.JPG" alt="category" width="250" height="300">
+    </div>
+
+    <div class="col-md-3">
+      <div id="performance">
+        <p>Performance <br>by<br> location</p>
+        <p>Category:</p>
+        <select id="select_category">
+          <option value="all">All</option>
+          <option value="agro_industria_e_comercio">Agro industria e comercio</option>
+          <option value="alimentos">Alimentos</option>
+          <option value="alimentos_bebidas">Alimentos bebidas</option>
+        </select>
+      </div>
+      <!--img src="./Images2/performance.JPG" alt="performance by location" width="250" height="300"-->
+    </div>
+
+    <div class="col-md-3">
+      <div id="map" style="width: 300px; height: 400px"></div>      
+    </div>
+  </div>
+
+  <div class= "row">
+    <div class= "footer1">
+      <h4 style="align-self: center;"> Project 2: Web Building and Visualization</h4>
+    </div>
+  </div>
+
+  <div class= "row">
+    <div class= "footer2">
+      <h6>Edoardo Zapata - Luiso Vazquez - Maria Ines Oñate - Sonia Suarez - Veronica Castillo</h6>
+    </div>
+  </div>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+  crossorigin=""></script>
+  <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="./static/js/app.js"></script>
+  <script src="./static/js/config.js"></script>
+  <script src="./static/js/logic.js"></script>
+  
+</body>
+
+</html>

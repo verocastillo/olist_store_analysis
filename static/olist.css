@@ -1,0 +1,39 @@
+.title{
+    background-color: dodgerblue;
+    font-size: large;
+    color: floralwhite;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.subtitle{
+    background-color: lightgray;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size:medium;
+    color:black;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.border{
+    border-right: 3px solid black;
+    border-left: 3px solid black;
+}
+.border2{
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+    border-left: 3px solid black;
+}
+.footer1{
+    align-items: center;
+    align-content: center;
+    background-color: whitesmoke;
+    text-align: center;
+    padding: 0.25%;
+}
+.footer2{
+    text-align: center;
+    background-color: skyblue;
+    padding: 2px;
+}
+.subtitle{
+    padding: 2px;
+    font-weight: bold;
+}
