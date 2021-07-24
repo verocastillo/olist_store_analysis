@@ -10,6 +10,12 @@ linechart(2016);
 gaugechart(2016);
 barchart(2016);
 
+// Initial cleave
+var cleave = new Cleave('.input-element', {
+  date: true,
+  datePattern: ['m', 'y']
+});
+
 // Event handlers
 d3.select("#select_year").on("change",runEnter);
 
@@ -430,7 +436,6 @@ function barchart(inputYear) {
       var bardata = [tracebar];
       var layoutbar = {
         title: {text: "<b>Top 5 Product<br>Categories 2016</b>",
-        y : .80
           },
         xaxis: { title: "Category Name", 
             automargin: true, },
@@ -519,7 +524,6 @@ function barchart(inputYear) {
       var bardata = [tracebar];
       var layoutbar = {
         title: {text: "<b>Top 5 Product<br>Categories 2018</b>",
-        y : .80
           },
         xaxis: { title: "Category Name", 
             automargin: true, },
@@ -564,7 +568,6 @@ function barchart(inputYear) {
       var bardata = [tracebar];
       var layoutbar = {
         title: {text: "<b>Top 5 Product<br>Categories All Years</b>",
-        y : .80
           },
         xaxis: { title: "Category Name", 
             automargin: true, },

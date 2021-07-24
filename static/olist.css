@@ -38,11 +38,4 @@
     font-weight: bold;
 }
 
-.supertitle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-size: 130px;
-    background-image: url("../img/logo-mask.png");
-    text-indent: -9999px;
-}
+
