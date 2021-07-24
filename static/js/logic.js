@@ -90,6 +90,27 @@ function createMap(year,category) {
       marker.addTo(myMap);
   }
 
+  // Get legend
+var legend = L.control({ position: 'bottomright' });
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 500, 5000, 50000, 80000, 100000],
+        labels = [];
+
+      // loop through our density intervals and generate a label with a colored square for each interval
+      div.innerHTML= '<strong>Sales($)</strong><br>';
+      for (var i = 0; i < grades.length; i++) {
+          div.innerHTML +=
+              '<div style="background:' + getColor(grades[i] + 1) + '">&nbsp;</div> ' +
+              grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+              console.log(div.innerHTML);
+      }
+
+      return div;
+  };
+
+  legend.addTo(myMap);
 }
 function getColor(value){
     if(value <= 500)

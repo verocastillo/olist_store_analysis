@@ -16,3 +16,15 @@ body {
   height: 100px;
   width: 100px;
 }
+.legend {
+  line-height: 18px;
+  color: black;
+  background-color: white;
+}
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.9;
+}
