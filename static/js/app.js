@@ -16,7 +16,7 @@ function runEnter() {
 
   // Check value on button
   var inputYear = d3.select("#select_year").property("value");
-  console.log(inputYear);
+  //console.log(inputYear);
   
   // Change value according to element
   if (inputYear === "2016"){
@@ -37,7 +37,7 @@ function runEnter() {
   }
 }
 
-// Create Bar Charts
+// Create line charts
 function linechart(inputYear) {
   // Change value according to element
   if (inputYear === "2016"){
@@ -47,17 +47,41 @@ function linechart(inputYear) {
       for (var i = 0; i < linedata.length; ++i) {
         allmonths.push(linedata[i].month)
       }
-      console.log(allmonths)
+      //console.log(allmonths)
       var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
-      console.log(months)
+      //console.log(months)
       var count = {};
       allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
-      console.log(count);
-      monthsales = []
-      for (var i = 0; i < months.length + 1; ++i) {
-        monthsales.push(count[i])
-      }
-      console.log(monthsales);
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
+        }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
     })
   }
   else if (inputYear === "2017"){
@@ -67,17 +91,41 @@ function linechart(inputYear) {
       for (var i = 0; i < linedata.length; ++i) {
         allmonths.push(linedata[i].month)
       }
-      console.log(allmonths)
+      //console.log(allmonths)
       var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
       console.log(months)
       var count = {};
       allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
-      console.log(count);
-      monthsales = []
-      for (var i = 0; i < months.length + 1; ++i) {
-        monthsales.push(count[i])
-      }
-      console.log(monthsales);
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
+        }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
     })
   }
   else if (inputYear === "2018"){
@@ -87,17 +135,41 @@ function linechart(inputYear) {
       for (var i = 0; i < linedata.length; ++i) {
         allmonths.push(linedata[i].month)
       }
-      console.log(allmonths)
+      //console.log(allmonths)
       var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
-      console.log(months)
+      //console.log(months)
       var count = {};
       allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
-      console.log(count);
-      monthsales = []
-      for (var i = 1; i < months.length + 1; ++i) {
-        monthsales.push(count[i])
-      }
-      console.log(monthsales);
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
+        }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
     })
   }
   else {
@@ -107,17 +179,41 @@ function linechart(inputYear) {
       for (var i = 0; i < linedata.length; ++i) {
         allmonths.push(linedata[i].month)
       }
-      console.log(allmonths)
+      //console.log(allmonths)
       var months = allmonths.filter(onlyUnique).sort(function(a, b){return a-b})
-      console.log(months)
+      //console.log(months)
       var count = {};
       allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
-      console.log(count);
-      monthsales = []
-      for (var i = 1; i < months.length + 1; ++i) {
-        monthsales.push(count[i])
-      }
-      console.log(monthsales);
+      //console.log(count);
+      totalpayms = []
+      months.forEach(function totalPays(month) {
+        var priceArray = linedata.filter(function (el) {
+          return el.month == month;
+        })
+        payments = []
+        for (var i = 0; i < priceArray.length; ++i) {
+          payments.push(priceArray[i].payment_value)
+        }
+        var totalPrice = payments.reduce((a, b) => a + b, 0)
+        totalpayms.push(totalPrice)
+      })
+      //console.log(totalpayms)
+      var traceline = {
+        x: months,
+        y: totalpayms,
+        type: 'scatter'
+      };
+      var dataline = [traceline];
+      var layoutline = {
+        title: {text: "<b>Number of Sales Per Month</b>",
+        y : .80
+          },
+        xaxis: { title: "Month", 
+            automargin: true, },
+        yaxis: { title: "Monthly Sales ($)"},
+        margin: { l: 110, r: 10, t: 110, b: 50 }
+      };
+      Plotly.newPlot('scatter', dataline, layoutline);
     })
   }
 }
