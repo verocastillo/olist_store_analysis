@@ -11,10 +11,10 @@ gaugechart(2016);
 barchart(2016);
 
 // Initial cleave
-var cleave = new Cleave('.input-element', {
+/*var cleave = new Cleave('.input-element', {
   date: true,
   datePattern: ['m', 'y']
-});
+});*/
 
 // Event handlers
 d3.select("#select_year").on("change",runEnter);
@@ -27,6 +27,7 @@ function runEnter() {
 
   // Check value on button
   var inputYear = d3.select("#select_year").property("value");
+  var inputCategory = d3.select("#select_category").property("value");
   //console.log(inputYear);
   
   // Change value according to element
@@ -54,6 +55,7 @@ function runEnter() {
     gaugechart(inputYear);
     barchart(inputYear);
   }
+  createMap(parseInt(inputYear),inputCategory);
 }
 
 // Create line charts
