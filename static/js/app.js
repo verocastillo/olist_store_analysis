@@ -54,7 +54,7 @@ function linechart(inputYear) {
       allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
       console.log(count);
       monthsales = []
-      for (var i = 10; i < months.length + 1; ++i) {
+      for (var i = 0; i < months.length + 1; ++i) {
         monthsales.push(count[i])
       }
       console.log(monthsales);
@@ -74,7 +74,7 @@ function linechart(inputYear) {
       allmonths.forEach(e => count[e] ? count[e]++ : count[e] = 1 );
       console.log(count);
       monthsales = []
-      for (var i = 1; i < months.length + 1; ++i) {
+      for (var i = 0; i < months.length + 1; ++i) {
         monthsales.push(count[i])
       }
       console.log(monthsales);
