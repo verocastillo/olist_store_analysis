@@ -1,17 +1,49 @@
+#
+# Project 2: Flask API and get JSONs
+#
+
 # 1. Import Dependencies and Flask
 import pandas as pd
 import datetime as dt
+import json
 from config import sqlkey
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from sqlalchemy.sql.expression import null
 
 # 2. Setup Database
 # Create engine
 engine = create_engine(f'postgresql://postgres:{sqlkey}@localhost:5432/olist-final-database')
 connection = engine.connect()
+# Export JSONs
+    # Main Data
+maindatadf = pd.read_sql("SELECT * FROM maindata", connection)
+maindatadf = maindatadf.dropna()
+maindatadf['year'] = pd.DatetimeIndex(maindatadf['order_delivered_customer_date']).year
+maindatadf['month'] = pd.DatetimeIndex(maindatadf['order_delivered_customer_date']).month
+maindatadf.to_json("flask-database/json-data/maindata.json", orient='records')
+    # Main Data Per Year
+yfilt2016df = maindatadf[maindatadf['year'] == 2016]
+yfilt2016df.to_json("flask-database/json-data/maindata2016.json", orient='records')
+yfilt2017df = maindatadf[maindatadf['year'] == 2017]
+yfilt2017df.to_json("flask-database/json-data/maindata2017.json", orient='records')
+yfilt2018df = maindatadf[maindatadf['year'] == 2018]
+yfilt2018df.to_json("flask-database/json-data/maindata2018.json", orient='records')
+    # Top 5 Data
+top5datadf = pd.read_sql("SELECT * FROM top5data", connection)
+top5datadf = top5datadf.dropna()
+top5datadf['year'] = pd.DatetimeIndex(top5datadf['order_delivered_customer_date']).year
+top5datadf['month'] = pd.DatetimeIndex(top5datadf['order_delivered_customer_date']).month
+top5datadf.to_json("flask-database/json-data/top5data.json", orient='records')
+    # Top 5 Data Per Year
+yfilt52016df = top5datadf[top5datadf['year'] == 2016]
+yfilt52016df.to_json("flask-database/json-data/top5data2016.json", orient='records')
+yfilt52017df = top5datadf[top5datadf['year'] == 2017]
+yfilt52017df.to_json("flask-database/json-data/top5data2017.json", orient='records')
+yfilt52018df = top5datadf[top5datadf['year'] == 2018]
+yfilt52018df.to_json("flask-database/json-data/top5data2018.json", orient='records')
 
 # 3. Setup Flask
 app = Flask(__name__)
@@ -28,7 +60,7 @@ def home():
         f"/api/v1.0/only2016<br/>"
         f"/api/v1.0/only2017<br/>"
         f"/api/v1.0/only2018<br/>"
-        f"/api/v1.0/top5database/<year><br/>"
+        f"/api/v1.0/top5database/year<br/>"
     )
 
 # 5. Define Query 
